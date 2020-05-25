@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,10 +15,13 @@ namespace ToDoList.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ToDo
+        // GET: ToDo (Default routing)
         public ActionResult Index()
         {
-            return View(db.ToDos.ToList());
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (u => u.Id == currentUserId);
+            return View(db.ToDos.ToList().Where(t => t.User == currentUser));
         }
 
         // GET: ToDo/Details/5
@@ -50,6 +54,11 @@ namespace ToDoList.Controllers
         {
             if (ModelState.IsValid)
             {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    ( u => u.Id == currentUserId);
+                toDo.User = currentUser;
+
                 db.ToDos.Add(toDo);
                 db.SaveChanges();
                 return RedirectToAction("Index");
