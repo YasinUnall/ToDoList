@@ -18,19 +18,22 @@ namespace ToDoList.Controllers
         // GET: ToDo (Default routing)
         public ActionResult Index()
         {
-            string currentUserId = User.Identity.GetUserId();
-            ApplicationUser currentUser = db.Users.FirstOrDefault
-                (u => u.Id == currentUserId);
-            return View(db.ToDos.ToList().Where(t => t.User == currentUser));
+            return View();
         }
 
-        public ActionResult BuildToDoTable()
+        private IEnumerable<ToDo> GetToDos()
         {
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (u => u.Id == currentUserId);
-            return PartialView("_ToDoTable",
-                db.ToDos.ToList().Where(t => t.User == currentUser));
+
+            return db.ToDos.ToList().Where(t => t.User == currentUser);
+        }
+
+        public ActionResult BuildToDoTable()
+        {
+            
+            return PartialView("_ToDoTable", GetToDos());
         }
 
         // GET: ToDo/Details/5
@@ -74,6 +77,25 @@ namespace ToDoList.Controllers
             }
 
             return View(toDo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXCreate([Bind(Include = "Id,Description")] ToDo toDo)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    (u => u.Id == currentUserId);
+                toDo.User = currentUser;
+                toDo.IsDone = false;
+
+                db.ToDos.Add(toDo);
+                db.SaveChanges();
+            }
+
+            return PartialView("_ToDoTable", GetToDos());
         }
 
         // GET: ToDo/Edit/5

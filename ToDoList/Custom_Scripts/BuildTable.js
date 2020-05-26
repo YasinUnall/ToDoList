@@ -1,9 +1,9 @@
-﻿$(document).ready(fuction() {
+﻿$(document).ready(function () {
 
     $.ajax({
         url: '/ToDo/BuildToDoTable',
         success: function (result) {
-            $('#tableDiv').html.result;
+            $('#tableDiv').html(result);
         }
     });
 
