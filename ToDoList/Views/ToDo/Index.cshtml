@@ -4,13 +4,8 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 <div id="tableDiv"></div>
+
 <div id="todoCreateForm">
     @using (Ajax.BeginForm("AJAXCreate", "ToDo", new AjaxOptions
     {
