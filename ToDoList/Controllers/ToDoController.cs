@@ -27,7 +27,20 @@ namespace ToDoList.Controllers
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (u => u.Id == currentUserId);
 
-            return db.ToDos.ToList().Where(t => t.User == currentUser);
+            IEnumerable<ToDo> toDos = db.ToDos.ToList().Where(t => t.User == currentUser);
+
+            int completeCount = 0;
+            foreach (ToDo toDo in toDos)
+            {
+                if (toDo.IsDone)
+                {
+                    completeCount++;
+                }
+            }
+
+            ViewBag.Percent = Math.Round(100f * ((float)completeCount / (float)toDos.Count()));
+
+            return toDos;
         }
 
         public ActionResult BuildToDoTable()
@@ -110,6 +123,16 @@ namespace ToDoList.Controllers
             {
                 return HttpNotFound();
             }
+
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (u => u.Id == currentUserId);
+
+            if (toDo.User != currentUser)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             return View(toDo);
         }
 
