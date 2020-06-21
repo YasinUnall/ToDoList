@@ -106,5 +106,5 @@ C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.csproj.CoreCompi
 C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.csproj.CopyComplete
 C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.dll
 C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.pdb
-C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.Migrations.FirstMigration.resources
+C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.Migrations.ToDoListDB.resources
 C:\Users\Shin\source\repos\ToDoList\ToDoList\obj\Debug\ToDoList.csproj.GenerateResource.cache
